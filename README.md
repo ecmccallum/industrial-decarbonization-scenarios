@@ -199,5 +199,7 @@ European Commission (2021). Fit for 55 package — EU climate targets for 2030.
 
 Emma McCallum
 
+
 LinkedIn: https://linkedin.com/in/ecmccallum
+
 GitHub: https://github.com/ecmccallum
