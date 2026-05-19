@@ -3,9 +3,9 @@ emission_factors.py
 Carbon intensity factors for environmental and remediation modelling.
 
 Sources:
-    [ADEME]  ADEME Base Empreinte® V23.6 (July 2025) — Scope 1 combustion,
+    [ADEME]  ADEME Base Empreinte® V23.10 (May 2026) — Scope 1 combustion,
              French electricity, biomethane lifecycle values.
-             https://data.ademe.fr/datasets/base-carboner
+             https://base-empreinte.ademe.fr/
     [UBA]    Umweltbundesamt (German Federal Environment Agency), 2024.
              CO₂-Emissionsfaktor für den Strommix in Deutschland 2023.
     [DESNZ]  UK Dept. for Energy Security and Net Zero, 2024.
@@ -13,9 +13,11 @@ Sources:
     [RTE]    RTE Réseau de Transport d'Électricité, Annual Electricity Review 2023.
     [EEA]    European Environment Agency, GHG Emission Intensity of
              Electricity Generation in Europe, 2024 edition.
-    [EI]     ecoinvent v3.10 — chemicals, upstream LCA.
+    [EI]     ecoinvent v3.10 — chemicals embodied carbon, cradle-to-gate
     [LIT]    Peer-reviewed literature / ADEME studies — biomethane,
              instrument energy.
+    [IPCC]   IPCC (2022). Sixth Assessment Report, Working Group III, Chapter 6, Table 6.5. 
+             Cambridge University Press.
 
 All electricity factors are location-based (average grid mix) unless stated
 otherwise. Fuel factors are on a lower heating value (LHV / PCI) basis,
@@ -25,27 +27,30 @@ Last updated: May 2026
 """
 
 # ── SCOPE 1: Direct combustion ────────────────────────────────────────────────
-# Source: ADEME Base Empreinte V23.6
+# Source: ADEME Base Empreinte V23.10 (May 2026)
 # Unit:   kgCO₂eq / kWh PCI (LHV)
 # Includes CO₂, CH₄, N₂O as CO₂eq (GWP100, AR5).
 # Scope 1 combustion only — upstream extraction/transport not included.
 SCOPE1 = {
-    'natural_gas': 0.227,   # [ADEME]
-    'fuel_oil':    0.324,   # [ADEME] fioul domestique
-    'coal':        0.342,   # [ADEME] houille
-    'lpg':         0.274,   # [ADEME]
-    'diesel':      0.267,   # [ADEME] stationary use
+    'natural_gas': 0.205,   # [ADEME]
+    'fuel_oil':    0.266,   # [ADEME] fioul domestique
+    'coal':        0.346,   # [ADEME] houille
+    'lpg':         0.230,   # [ADEME]
+    'diesel':      0.262,   # [ADEME] stationary use
 }
 
 # ── SCOPE 2: Electricity — location-based average grid mix ───────────────────
 # Unit: kgCO₂eq / kWh electricity consumed (consumption-based, includes imports)
 SCOPE2_ELECTRICITY = {
-    'FR_2023':       0.055,  # France — ADEME Base Empreinte V23.6 / RTE 2023
-                              # Nuclear-dominated; consumption-based ~55 gCO₂eq/kWh
+    'FR_2023':       0.046,  # France — ADEME Base Empreinte V23.10, mix moyen 2025 
+                             # Nuclear-dominated; consumption-based ~46 gCO₂eq/kWh
     'DE_2023':       0.380,  # Germany — Umweltbundesamt [UBA] 2024 (2023 data)
     'EU_avg_2023':   0.255,  # EU-27 average — EEA 2024 edition [EEA]
     'UK_2023':       0.225,  # UK — DESNZ 2024; generation + T&D combined [DESNZ]
-    'renewable_ppa': 0.010,  # LCA estimate — infrastructure & manufacturing only [EI]
+    'renewable_ppa': 0.010,  # Generic low-carbon PPA proxy — 10 gCO2eq/kWh
+                             # Within IPCC AR6 lifecycle ranges for wind, solar and nuclear
+                             # (7–50 gCO2eq/kWh). Technology mix unspecified.
+                             # Source: IPCC AR6 WG3 Chapter 6, Table 6.5 (2022).
 }
 
 # ── BIOMETHANE: lifecycle carbon intensity ────────────────────────────────────
